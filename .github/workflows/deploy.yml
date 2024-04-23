@@ -12,10 +12,12 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Setup Node
         uses: actions/setup-node@v3
+        with:
+          node-version: '20'  # Ensure this version supports Node.js 20
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
@@ -23,11 +25,14 @@ jobs:
       - name: Build project
         run: npm run build
 
+      - name: List output files
+        run: ls -al ./build  # Adjust to list the contents of the 'build' directory
+
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v4
         with:
           name: production-files
-          path: ./dist
+          path: ./build  # Adjust to upload the 'build' directory
 
   deploy:
     name: Deploy
@@ -40,10 +45,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: production-files
-          path: ./dist
+          path: ./build  # Adjust to download to the 'build' directory
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./build  # Adjust to publish the 'build' directory
