@@ -17,10 +17,18 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'  # Ensure you are using the Node version your project supports
+          node-version: '16'  # Recommended to use an LTS version
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1  # Consider updating if there's a newer version
+        uses: bahmutov/npm-install@v1
 
       - name: Build project
         run: npm run build
