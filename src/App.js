@@ -1,4 +1,4 @@
-import React, { useState, Suspense } from 'react';
+import React, { useState,useEffect, Suspense } from 'react';
 import './App.css';
 import { useSession, useSupabaseClient, useSessionContext } from '@supabase/auth-helpers-react';
 import * as dayjs from 'dayjs';
@@ -10,8 +10,6 @@ const TaskForm = React.lazy(() => import('./TaskForm'));
 const Tasks = React.lazy(() => import('./Tasks'));
 
 
-
-
 function App() {
   const [tasks, setTasks] = useState([]);
   const [start, setStart] = useState(dayjs());
@@ -21,14 +19,29 @@ function App() {
   const [priority, setPriority] = useState("Normal");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [theme, setTheme] = useState('light'); 
+
 
   const session = useSession();
   const supabase = useSupabaseClient();
   const { isLoading: isSessionLoading } = useSessionContext();
 
-  if (isLoading) {
-    return <LoadingComponent message="Please wait..." />;
-  }
+  useEffect(() => {
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    setTheme(currentTheme);
+    document.body.setAttribute('data-theme', currentTheme);
+  }, []);
+  
+  useEffect(() => {
+    localStorage.setItem('theme', theme);
+    document.body.setAttribute('data-theme', theme);
+  }, [theme]);
+
+   const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light'); // Toggle theme
+  };
+  
+  
 
   async function googleSignIn() {
     setIsLoading(true);
@@ -43,7 +56,6 @@ function App() {
     }
     setIsLoading(false);
   }
-
 
   async function signOut() {
     setIsLoading(true);
@@ -66,7 +78,8 @@ function App() {
       'end': {
         'dateTime': end.toISOString(),
         'timeZone': Intl.DateTimeFormat().resolvedOptions().timeZone
-      }
+      },
+      
     };
   
     const response = await fetch("https://www.googleapis.com/calendar/v3/calendars/primary/events", {
@@ -140,6 +153,9 @@ function App() {
     <div className="App">
       <div className="container">
         {error && <ErrorComponent errorMessage={error} />}
+        <button onClick={toggleTheme} className="toggle-theme">
+          Switch to {theme === 'light' ? 'Dark' : 'Light'} Mode
+        </button>
         <Suspense fallback={<LoadingComponent message="Loading, please wait..." />}>
           {!session ? (
             <SignIn onSignIn={googleSignIn} />
@@ -167,5 +183,13 @@ function App() {
       </div>
     </div>
   );
+  
 }
 export default App;
+
+
+
+
+
+
+
