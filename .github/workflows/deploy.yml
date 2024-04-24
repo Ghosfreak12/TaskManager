@@ -3,7 +3,7 @@ name: Deploy Node.js Site to GitHub Pages
 on:
   push:
     branches:
-      - main  # Set this to your default branch
+      - main  
 
 jobs:
   build-and-deploy:
@@ -16,16 +16,19 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '20'  # Specify the Node.js version you need
+        node-version: '20' 
 
     - name: Install dependencies
       run: npm install
 
+    - name: Run Tests
+      run: npm test  
+
     - name: Build site
-      run: npm run build  # Adjust this command based on your build script
+      run: npm run build  
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./public  # Adjust this to the output directory of your site build
+        publish_dir: ./public  
