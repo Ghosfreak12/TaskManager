@@ -1,16 +1,124 @@
 /* App.css */
+/* App.css */
 
-/* Light Mode - Default */
-body {
+/* Container for the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Slider styling for Dark Mode */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #555;  /* Darker background for the slider */
+  transition: .4s;
+  border-radius: 34px;
+}
+
+/* Create the slider/lever inside the switch */
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+/* Color changes when the switch is checked - Bright color in dark mode */
+input:checked + .slider {
+  background-color: #4CAF50;  /* Vibrant green to stand out in dark mode */
+}
+
+/* Lever moves to the right when checked */
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+/* Optional: Adds a box shadow effect on the lever to enhance visibility in dark mode */
+.slider:before {
+  box-shadow: 0 2px 4px 0 rgba(255, 255, 255, 0.2);  /* Lighter shadow for dark mode */
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
   background-color: #f9f9f9;
-  color: #333;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* Dark Mode */
-body.dark-mode {
-  background-color: #333;
-  color: #fff;
+h2 {
+  color: #333;
+  text-align: center;
 }
+
+.button {
+  display: inline-block;
+  background-color: #007bff;
+  color: #ffffff;
+  padding: 10px 20px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.input,
+select {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.task {
+  border: 1px solid #eee;
+  padding: 20px;
+  margin: 10px 0;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.task h3 {
+  margin-top: 0;
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 20px;
+}
+
+.error {
+  color: #ff0000;
+}
+
 
 /* Shared container styles */
 .container {
