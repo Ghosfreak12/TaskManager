@@ -1,4 +1,4 @@
-import React, { useState, Suspense } from 'react';
+import React, { useState, Suspense, useEffect } from 'react';
 import './App.css';
 import { useSession, useSupabaseClient, useSessionContext } from '@supabase/auth-helpers-react';
 import * as dayjs from 'dayjs';
@@ -19,13 +19,21 @@ function App() {
   const [priority, setPriority] = useState("Normal");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-
+  const [darkMode, setDarkMode] = useState(() => localStorage.getItem('theme') === 'dark-mode');
 
 
   const session = useSession();
   const supabase = useSupabaseClient();
   const { isLoading: isSessionLoading } = useSessionContext();
 
+  useEffect(() => {
+      document.body.className = darkMode ? 'dark-mode' : '';
+      localStorage.setItem('theme', darkMode ? 'dark-mode' : '');
+  }, [darkMode]);
+
+  const toggleTheme = () => {
+      setDarkMode(!darkMode);
+  };
 
   async function googleSignIn() {
     setIsLoading(true);
@@ -132,7 +140,6 @@ function App() {
     return <LoadingComponent message="Loading, please wait..." />;
   }
 
-
   return (
     <div className="App">
       <div className="container">
@@ -158,6 +165,9 @@ function App() {
               />
               <Tasks tasks={tasks} deleteTask={deleteTask} completeTask={completeTask} />
               <button onClick={signOut} className="button">Sign Out</button>
+              <button onClick={toggleTheme} className="button">
+                                {darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                            </button>
             </>
           )}
         </Suspense>
@@ -167,10 +177,3 @@ function App() {
   
 }
 export default App;
-
-
-
-
-
-
-
