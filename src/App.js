@@ -36,6 +36,8 @@ function App() {
     setDarkMode(!darkMode);
   };
 
+  const themeClass = darkMode ? 'dark-mode' : '';
+
   async function googleSignIn() {
     setIsLoading(true);
     const { error } = await supabase.auth.signInWithOAuth({
@@ -142,7 +144,7 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className={`App ${themeClass}`}>
       <div className="container">
         {error && <ErrorComponent errorMessage={error} />}
         <Suspense fallback={<LoadingComponent message="Loading, please wait..." />}>
@@ -166,16 +168,13 @@ function App() {
               />
               <Tasks tasks={tasks} deleteTask={deleteTask} completeTask={completeTask} />
               <button onClick={signOut} className="button">Sign Out</button>
-              <label>
-                Toggle Dark Mode
-                <input type="checkbox" checked={darkMode} onChange={handleThemeChange} />
-              </label>
+              <button className="toggle-button" onClick={handleThemeChange}></button>
             </>
           )}
         </Suspense>
       </div>
     </div>
   );
-  
 }
+
 export default App;
