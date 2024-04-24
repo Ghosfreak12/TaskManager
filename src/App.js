@@ -36,7 +36,7 @@ function App() {
     setDarkMode(!darkMode);
   };
 
-  const themeClass = darkMode ? 'dark-mode' : '';
+  const themeClass = darkMode ? 'dark-mode' : 'light-theme';
 
   async function googleSignIn() {
     setIsLoading(true);
