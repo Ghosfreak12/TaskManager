@@ -6,13 +6,13 @@
 }
 
 .light-theme {
-  background-color: #fff; 
+  background-color: #fff;
   color: #333;
 }
 
 .dark-mode {
-  background-color: #333; 
-  color: #fff; 
+  background-color: #333;
+  color: #fff;
 }
 
 .toggle-button {
@@ -52,11 +52,21 @@
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: background-color 0.3s; /* Added transition for smooth background change */
+}
+
+.dark-mode .container {
+  background-color: #424242; /* Dark background for the container */
+  border-color: #616161; /* Adjust border color for dark mode */
 }
 
 h2 {
   color: #333;
-  text-align: center;
+  transition: color 0.3s; /* Added transition for color change */
+}
+
+.dark-mode h2 {
+  color: #fff; /* Light text color in dark mode */
 }
 
 .button {
@@ -75,6 +85,11 @@ h2 {
   background-color: #0056b3;
 }
 
+.dark-mode .button {
+  background-color: #50597b; /* Darker background for buttons in dark mode */
+  border-color: #404860; /* Adjust border color for buttons in dark mode */
+}
+
 .input,
 select {
   width: 100%;
@@ -83,6 +98,18 @@ select {
   border-radius: 5px;
   border: 1px solid #ccc;
   box-sizing: border-box;
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s; /* Add transitions for inputs and selects */
+}
+
+.dark-mode .input,
+.dark-mode select {
+  background-color: #616161; /* Dark background for input fields */
+  color: #fff; /* Light text color for inputs */
+  border: 1px solid #757575; /* Slightly lighter border color for contrast */
+}
+
+.dark-mode ::placeholder {
+  color: #bdbdbd; /* Lighter placeholder text for visibility */
 }
 
 .task {
@@ -91,10 +118,17 @@ select {
   margin: 10px 0;
   border-radius: 5px;
   background-color: #fff;
+  transition: background-color 0.3s, border-color 0.3s; /* Add transition for tasks */
+}
+
+.dark-mode .task {
+  background-color: #616161; /* Dark background for tasks */
+  border: 1px solid #757575; /* Dark border for tasks */
 }
 
 .task h3 {
   margin-top: 0;
+  color: inherit; /* Ensure the color is inherited for dark mode */
 }
 
 .loading,
@@ -105,4 +139,8 @@ select {
 
 .error {
   color: #ff0000;
+}
+
+.dark-mode .error {
+  color: #ff8080; /* Lighter error color in dark mode for visibility */
 }
