@@ -1,12 +1,9 @@
-import React, { useState, Suspense, useEffect } from 'react';
+import React, { useState, Suspense } from 'react';
 import './App.css';
 import { useSession, useSupabaseClient, useSessionContext } from '@supabase/auth-helpers-react';
 import * as dayjs from 'dayjs';
 import LoadingComponent from './LoadingComponent';
 import ErrorComponent from './ErrorComponent';
-import { ThemeProvider, createTheme } from '@mui/material/styles';  
-import CssBaseline from '@mui/material/CssBaseline';
-import Switch from '@mui/material/Switch';
 
 const SignIn = React.lazy(() => import('./SignIn'));
 const TaskForm = React.lazy(() => import('./TaskForm'));
@@ -24,30 +21,12 @@ function App() {
   const [error, setError] = useState('');
 
 
+
   const session = useSession();
   const supabase = useSupabaseClient();
   const { isLoading: isSessionLoading } = useSessionContext();
 
-  const [darkMode, setDarkMode] = useState(() => {
-  
-    const savedTheme = localStorage.getItem('darkMode');
-    return savedTheme === 'true' ? true : false;
-  });
 
-  useEffect(() => {
-   
-    localStorage.setItem('darkMode', darkMode);
-  }, [darkMode]);
-
-  const handleThemeChange = () => {
-    setDarkMode(!darkMode);
-  };
-
-  const theme = createTheme({
-    palette: {
-      mode: darkMode ? 'dark' : 'light',
-    },
-  });
   async function googleSignIn() {
     setIsLoading(true);
     const { error } = await supabase.auth.signInWithOAuth({
@@ -153,9 +132,8 @@ function App() {
     return <LoadingComponent message="Loading, please wait..." />;
   }
 
+
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline /> 
     <div className="App">
       <div className="container">
         {error && <ErrorComponent errorMessage={error} />}
@@ -180,13 +158,11 @@ function App() {
               />
               <Tasks tasks={tasks} deleteTask={deleteTask} completeTask={completeTask} />
               <button onClick={signOut} className="button">Sign Out</button>
-              <Switch checked={darkMode} onChange={handleThemeChange} />
             </>
           )}
         </Suspense>
       </div>
     </div>
-    </ThemeProvider>
   );
   
 }
